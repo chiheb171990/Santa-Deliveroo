@@ -20,7 +20,7 @@ public class Santa : MonoBehaviour
     {
         //Caching the components
         lineRenderer = GetComponent<LineRenderer>();
-        santaNavAgent = GetComponent<NavMeshAgent>();
+        santaNavAgent = transform.parent.GetComponent<NavMeshAgent>();
     }
 
     // Update is called once per frame
@@ -29,15 +29,34 @@ public class Santa : MonoBehaviour
         
     }
 
-    public void clickDestination(Destination dest)
+    public void initSanta(int Id)
     {
-        waypoints.Add(dest);
+        id = Id;
+    }
+
+    public void clickDestinationWithShift(Destination dest)
+    {
+        if (waypoints[waypoints.Count - 1] != dest)
+        {
+            waypoints.Add(dest);
+        }
         santaNavAgent.SetDestination(waypoints[0].destination);
     }
-    
+
+    public void clickDestination(Destination dest)
+    {
+        if (!santaNavAgent.hasPath)
+        {
+            santaNavAgent.SetDestination(waypoints[0].destination);
+        }
+    }
+
     public void CollectGift(Gift gift)
     {
         //Add the gift in the selected gifts list
         collectedGifts.Add(gift);
+
+        //Delete the gift from the first destination
+        waypoints.RemoveAt(0);
     }
 }

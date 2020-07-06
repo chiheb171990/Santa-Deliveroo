@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Gift
   - Santa
+  - House
   layers:
   - Default
   - TransparentFX

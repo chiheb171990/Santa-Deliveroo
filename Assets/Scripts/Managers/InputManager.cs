@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using cakeslice;
 
 public enum InputState {CameraView, TacticalView};
 public class InputManager : SingletonMB<InputManager>
@@ -9,6 +10,7 @@ public class InputManager : SingletonMB<InputManager>
     public InputState CurrentInputState;
     [Header("Variables")]
     [SerializeField] private GameObject cameraObject;
+    [SerializeField] private Transform tacticalViewTransform;
 
     [Header("Input Parameters")]
     public float MovementSensitivity;
@@ -16,14 +18,21 @@ public class InputManager : SingletonMB<InputManager>
     public LayerMask SantaLayer;
     public LayerMask ClickableLayer;
 
-    //Private Variables
+    // ****************************** Private Variables *********************************** //
+    //Cam Variables
     private float CamXAxis;
     private float CamZAxis;
     private float CamYaw;
     private float CamPitch;
+    //Raycast variables
     private Ray ray;
     private RaycastHit hit;
+
+    //Private caching variables
     private GameObject selectedSanta;
+    private GameObject selectedGiftHouse;
+    private Vector3 LastCamPosition;
+    private Quaternion LastCamRotation;
 
     // Start is called before the first frame update
     void Start()
@@ -59,7 +68,7 @@ public class InputManager : SingletonMB<InputManager>
                 CamPitch -= Input.GetAxis("Mouse Y");
 
                 //Rotate Camera according to mouse movement
-                cameraObject.transform.eulerAngles = new Vector3(CamPitch * RotationSensitivity, CamYaw * RotationSensitivity, 0);
+                cameraObject.transform.eulerAngles = new Vector3(CamPitch * RotationSensitivity,CamYaw * RotationSensitivity, 0);
             }
             
         }
@@ -75,12 +84,72 @@ public class InputManager : SingletonMB<InputManager>
                 ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 if(Physics.Raycast(ray,out hit, 10000, SantaLayer))
                 {
+                    if(selectedSanta != null)
+                    {
+                        //Dishighlight the santa if there is previous santa selected before the new one
+                        selectedSanta.GetComponent<Outline>().enabled = false;
+                    }
                     selectedSanta = hit.collider.gameObject;
+                    
+                    //Highlight santa
+                    selectedSanta.GetComponent<Outline>().enabled = true;
                     print("select");
                 }
                 else
                 {
+                    //Dishighlight santa
+                    if(selectedSanta != null)
+                    {
+                        selectedSanta.GetComponent<Outline>().enabled = false;
+                    }
+
                     selectedSanta = null;
+                    print("deselect");
+                }
+                if (Physics.Raycast(ray, out hit, 10000, ClickableLayer))
+                {
+                    if (selectedGiftHouse != null)
+                    {
+                        //Dishighlight the gift or the house if there is previous object selected before the new one
+                        if(selectedGiftHouse.tag == "House")
+                        {
+                            selectedGiftHouse.GetComponent<Outline>().color = 2;
+                        }
+                        else
+                        {
+                            selectedGiftHouse.GetComponent<Outline>().enabled = false;
+                        }
+                            
+                    }
+                    selectedGiftHouse = hit.collider.gameObject;
+
+                    //Highlight gift or house and get the correspondant gift or house
+                    if (selectedGiftHouse.tag == "House")
+                    {
+                        selectedGiftHouse.GetComponent<Outline>().color = 1;
+                    }
+                    else
+                    {
+                        selectedGiftHouse.GetComponent<Outline>().enabled = true;
+                    }
+                    print("select");
+                }
+                else
+                {
+                    //Dishighlight gift or house
+                    if (selectedGiftHouse != null)
+                    {
+                        if (selectedGiftHouse.tag == "House")
+                        {
+                            selectedGiftHouse.GetComponent<Outline>().color = 2;
+                        }
+                        else
+                        {
+                            selectedGiftHouse.GetComponent<Outline>().enabled = false;
+                        }
+                    }
+
+                    selectedGiftHouse = null;
                     print("deselect");
                 }
             }
@@ -130,13 +199,41 @@ public class InputManager : SingletonMB<InputManager>
             {
                 case InputState.CameraView:
                     CurrentInputState = InputState.TacticalView;
+                    //Caching the last transform of the camera in the movment view
+                    LastCamPosition = cameraObject.transform.position;
+                    LastCamRotation = cameraObject.transform.rotation;
+                    //Zoom out to the tactical mode view
+                    StopAllCoroutines();
+                    StartCoroutine(MoveTo(cameraObject, tacticalViewTransform.position,tacticalViewTransform.rotation, 1));
                     break;
                 case InputState.TacticalView:
                     CurrentInputState = InputState.CameraView;
+                    StopAllCoroutines();
+                    StartCoroutine(MoveTo(cameraObject, LastCamPosition,LastCamRotation, 1));
                     break;
                 default:
                     break;
             }
         }
+    }
+
+    public IEnumerator MoveTo(GameObject obj, Vector3 toPosition,Quaternion toRotation,float period)
+    {
+        //Move the object to the destination positon and orientation 
+        float timer = 0f;
+
+        //Get the first position and rotation
+        Vector3 firstPosition = obj.transform.position;
+        Quaternion firstRotation = obj.transform.rotation;
+
+        while (timer / period < 1)
+        {
+            obj.transform.position = Vector3.Lerp(firstPosition, toPosition, timer / period);
+            obj.transform.rotation = Quaternion.Lerp(firstRotation, toRotation, timer / period);
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        obj.transform.position = toPosition;
+        obj.transform.rotation = toRotation;
     }
 }

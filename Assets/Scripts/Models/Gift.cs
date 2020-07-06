@@ -21,6 +21,13 @@ public class Gift : Destination
         
     }
 
+    public void InitGift(int Id,int HouseId)
+    {
+        id = Id;
+        houseId = HouseId;
+        destination = transform.position;
+    }
+
     public void SelectGift(int santa_id)
     {
         isSelected = true;
