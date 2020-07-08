@@ -10,6 +10,7 @@ public class House : Destination
     public List<Gift> associatedGifts;
     public bool isSelected;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,6 +44,7 @@ public class House : Destination
         {
             //check if the santa have the associated gift
             Santa touchedSanta = other.gameObject.GetComponent<Santa>();
+            bool isSantaHaveAssociatedGift = false;
             int i = 0;
             while(i < associatedGifts.Count)
             {
@@ -65,13 +67,22 @@ public class House : Destination
                     //Remove the gift from house
                     associatedGifts.Remove(associatedGifts[i]);
 
-                    //remove the santa id
-                    santasId.Remove(touchedSanta.id);
+                    //Set the boolean is have associated gift to true
+                    isSantaHaveAssociatedGift = true;
                 }
                 else
                 {
                     i++;
                 }
+            }
+
+            //remove the santa id
+            santasId.Remove(touchedSanta.id);
+
+            //If the santa doesn't have the associated gift delete the destination
+            if (!isSantaHaveAssociatedGift)
+            {
+                touchedSanta.touchWaypoint();
             }
 
             //Check if all gifts are delivred

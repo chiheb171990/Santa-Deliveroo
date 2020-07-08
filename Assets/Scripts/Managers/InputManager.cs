@@ -11,6 +11,7 @@ public class InputManager : SingletonMB<InputManager>
     [Header("Variables")]
     [SerializeField] private GameObject cameraObject;
     [SerializeField] private Transform tacticalViewTransform;
+    
     public GameObject selectedSanta;
 
     [Header("Input Parameters")]
@@ -18,6 +19,7 @@ public class InputManager : SingletonMB<InputManager>
     public float RotationSensitivity;
     public LayerMask SantaLayer;
     public LayerMask ClickableLayer;
+    public LayerMask NavMeshLayer;
 
     // ****************************** Private Variables *********************************** //
     //Cam Variables
@@ -105,41 +107,39 @@ public class InputManager : SingletonMB<InputManager>
                     }
                 }
             }
-            
+
 
             //Select Santa's Actions
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetKey(KeyCode.LeftShift))
             {
-                //Check if there is santa selected
-                if (selectedSanta != null)
+                if (Input.GetMouseButtonDown(1))
                 {
-                    ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                    if (Physics.Raycast(ray, out hit, 10000, ClickableLayer))
+                    if (selectedSanta != null)
                     {
-                        //Caching the hit object
-                        GameObject hitObject = hit.collider.gameObject;
-
-                        //Caching the santa component
-                        Santa santaComponent = selectedSanta.GetComponent<Santa>();
-
-                        if (hitObject.tag == "Gift")
-                        {
-                            santaComponent.clickDestination(hitObject.GetComponent<Gift>());
-                            hitObject.GetComponent<Gift>().SelectGift(santaComponent.id);
-                        }
-
-                        if (hitObject.tag == "Space")
-                        {
-                            santaComponent.clickDestination(hitObject.GetComponent<Gift>());
-                        }
-
-                        if(hitObject.tag == "House")
-                        {
-                            santaComponent.clickDestination(hitObject.GetComponent<House>());
-                            hitObject.GetComponent<House>().SelectHouse(santaComponent.id);
-                        }
+                        SantaActionWithShift();
                     }
                 }
+            }
+
+            else if (Input.GetKeyUp(KeyCode.LeftShift))
+            {
+                if (selectedSanta != null)
+                {
+                    //begin the santa movment accordin its waypoints
+                    selectedSanta.GetComponent<Santa>().ClickShiftFinished();
+                }
+            }
+
+            else 
+            {
+                if (Input.GetMouseButtonDown(1))
+                {
+                    //Check if there is santa selected
+                    if (selectedSanta != null)
+                    {
+                        SantaActionWithoutShift();
+                    }
+                } 
             }
         }
     }
@@ -285,5 +285,69 @@ public class InputManager : SingletonMB<InputManager>
         //SantaMainController.Instance.ClearSantaScrollView();
 
         print("deselect");
+    }
+
+    private void SantaActionWithoutShift()
+    {
+        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out hit, 10000, ClickableLayer))
+        {
+            //Caching the hit object
+            GameObject hitObject = hit.collider.gameObject;
+
+            //Caching the santa component
+            Santa santaComponent = selectedSanta.GetComponent<Santa>();
+
+            if (hitObject.tag == "Gift")
+            {
+                santaComponent.clickDestination(hitObject.GetComponent<Gift>());
+                hitObject.GetComponent<Gift>().SelectGift(santaComponent.id);
+            }
+
+            if (hitObject.tag == "House")
+            {
+                santaComponent.clickDestination(hitObject.GetComponent<House>());
+                hitObject.GetComponent<House>().SelectHouse(santaComponent.id);
+            }
+        }
+    }
+
+    private void SantaActionWithShift()
+    {
+        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out hit, 10000, ClickableLayer))
+        {
+            //Caching the hit object
+            GameObject hitObject = hit.collider.gameObject;
+
+            //Caching the santa component
+            Santa santaComponent = selectedSanta.GetComponent<Santa>();
+
+            if (hitObject.tag == "Gift")
+            {
+                santaComponent.clickDestinationWithShift(hitObject.GetComponent<Gift>());
+                hitObject.GetComponent<Gift>().SelectGift(santaComponent.id);
+            }
+
+            if (hitObject.tag == "House")
+            {
+                santaComponent.clickDestinationWithShift(hitObject.GetComponent<House>());
+                hitObject.GetComponent<House>().SelectHouse(santaComponent.id);
+            }
+
+        }
+        else if (Physics.Raycast(ray, out hit, 10000, NavMeshLayer))
+        {
+            //Caching the hit object
+            GameObject hitObject = hit.collider.gameObject;
+
+            //Caching the santa component
+            Santa santaComponent = selectedSanta.GetComponent<Santa>();
+
+            //Instantiate a waypoint
+            GameObject waypoint = SantaGameManager.Instance.InstantiateWaypoint(hit.point, santaComponent.id);
+
+            santaComponent.clickDestinationWithShift(waypoint.GetComponent<Waypoint>());
+        }
     }
 }

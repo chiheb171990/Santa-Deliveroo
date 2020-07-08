@@ -36,11 +36,26 @@ public class Santa : MonoBehaviour
 
     public void clickDestinationWithShift(Destination dest)
     {
-        if (waypoints[waypoints.Count - 1] != dest)
+        if (waypoints.Count > 0)
+        {
+            if (waypoints[waypoints.Count - 1] != dest)
+            {
+                waypoints.Add(dest);
+            }
+        }
+        else
         {
             waypoints.Add(dest);
         }
-        santaNavAgent.SetDestination(waypoints[0].destination);
+        
+    }
+
+    public void ClickShiftFinished()
+    {
+        if (waypoints.Count > 0)
+        {
+            santaNavAgent.SetDestination(waypoints[0].destination);
+        }
     }
 
     public void clickDestination(Destination dest)
@@ -69,6 +84,12 @@ public class Santa : MonoBehaviour
 
         //Delete the gift from the first destination
         waypoints.RemoveAt(0);
+
+        //Set the next destination if there is waypoints
+        if (waypoints.Count > 0)
+        {
+            santaNavAgent.SetDestination(waypoints[0].destination);
+        }
     }
 
     public void DeliverGift(Gift gift)
@@ -78,5 +99,23 @@ public class Santa : MonoBehaviour
 
         //Delete the gift from the first destination
         waypoints.RemoveAt(0);
+
+        //Set the next destination if there is waypoints
+        if (waypoints.Count > 0)
+        {
+            santaNavAgent.SetDestination(waypoints[0].destination);
+        }
+    }
+
+    public void touchWaypoint()
+    {
+        //Remove the touched destination
+        waypoints.RemoveAt(0);
+
+        //Set the next destination if there is waypoints
+        if (waypoints.Count > 0)
+        {
+            santaNavAgent.SetDestination(waypoints[0].destination);
+        }
     }
 }

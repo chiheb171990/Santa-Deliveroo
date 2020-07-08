@@ -12,6 +12,8 @@ public class SantaGameManager : SingletonMB<SantaGameManager>
     [SerializeField] private Transform santaParent;
     [SerializeField] private GameObject giftObject;
     [SerializeField] private Transform giftParent;
+    [SerializeField] private GameObject waypointObject;
+    [SerializeField] private Transform waypointParent;
 
     [Header("Game variables")]
     public List<House> choosedHouses;
@@ -151,5 +153,13 @@ public class SantaGameManager : SingletonMB<SantaGameManager>
     {
         restGifts--;
         gifts.Remove(gift);
+    }
+
+    public GameObject InstantiateWaypoint(Vector3 pos,int santa_id)
+    {
+        GameObject waypointObj = Instantiate(waypointObject, pos, Quaternion.identity, waypointParent);
+        waypointObj.GetComponent<Waypoint>().InitWaypoint(santa_id);
+
+        return waypointObj;
     }
 }

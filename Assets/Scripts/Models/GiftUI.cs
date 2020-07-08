@@ -30,6 +30,9 @@ public class GiftUI : MonoBehaviour
 
     public void selectGift()
     {
+        //Deselect gifthouse associations
+        SantaGameManager.Instance.DeselectGiftsAndHousesAssociations();
+
         //when we click on the giftUI button the house associated will be highlighted
         SantaGameManager.Instance.selectGift(gift.houseId);
     }
