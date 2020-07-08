@@ -70,4 +70,13 @@ public class Santa : MonoBehaviour
         //Delete the gift from the first destination
         waypoints.RemoveAt(0);
     }
+
+    public void DeliverGift(Gift gift)
+    {
+        //remove the gift from list
+        collectedGifts.Remove(gift);
+
+        //Delete the gift from the first destination
+        waypoints.RemoveAt(0);
+    }
 }

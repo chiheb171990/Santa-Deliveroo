@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using cakeslice;
 
 public class House : Destination
 {
@@ -47,12 +48,11 @@ public class House : Destination
             {
                 if (touchedSanta.collectedGifts.Contains(associatedGifts[i]))
                 {
-                    print(touchedSanta.name);
                     //deliver the gift
                     SantaGameManager.Instance.DeliveredGift(associatedGifts[i]);
                     
                     //Remove the gift from the santa
-                    touchedSanta.collectedGifts.Remove(associatedGifts[i]);
+                    touchedSanta.DeliverGift(associatedGifts[i]);
 
                     //Remove the gift from the santa gift UI list if the scroll view is enabled and if the active scroll view content is corresponding to the selected santa
                     if (SantaMainController.Instance.SantaScrollViewObject.activeInHierarchy && InputManager.Instance.selectedSanta.GetComponent<Santa>().id == touchedSanta.id)
@@ -72,6 +72,16 @@ public class House : Destination
                 {
                     i++;
                 }
+            }
+
+            //Check if all gifts are delivred
+            if (associatedGifts.Count == 0)
+            {
+                //Dishighlight the house
+                GetComponent<Outline>().enabled = false;
+
+                //Set the house non clickable
+                gameObject.layer = 0;
             }
         }
     }

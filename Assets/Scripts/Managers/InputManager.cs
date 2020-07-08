@@ -34,6 +34,9 @@ public class InputManager : SingletonMB<InputManager>
     private Vector3 LastCamPosition;
     private Quaternion LastCamRotation;
 
+    //private input variables
+    private bool isShiftSelected = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -86,95 +89,19 @@ public class InputManager : SingletonMB<InputManager>
                     ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                     if (Physics.Raycast(ray, out hit, 10000, SantaLayer))
                     {
-                        if (selectedSanta != null)
-                        {
-                            //Dishighlight the santa if there is previous santa selected before the new one
-                            selectedSanta.GetComponent<Outline>().enabled = false;
-                        }
-                        selectedSanta = hit.collider.gameObject;
-
-                        //Highlight santa
-                        selectedSanta.GetComponent<Outline>().enabled = true;
-
-                        //clear and Enable santa scroll view
-                        SantaMainController.Instance.ClearSantaScrollView();
-                        SantaMainController.Instance.InitSantaScrollView(selectedSanta.GetComponent<Santa>().collectedGifts);
-                        print("select");
+                        selectSanta();
                     }
                     else
                     {
-                        //Dishighlight santa
-                        if (selectedSanta != null)
-                        {
-                            selectedSanta.GetComponent<Outline>().enabled = false;
-                        }
-
-                        selectedSanta = null;
-
-                        //Disable santa scroll view
-                        SantaMainController.Instance.ClearSantaScrollView();
-                        print("deselect");
+                        DeselectSanta();
                     }
                     if (Physics.Raycast(ray, out hit, 10000, ClickableLayer))
                     {
-                        if (selectedGiftHouse != null)
-                        {
-                            //Dishighlight the gift or the house if there is previous object selected before the new one
-                            if (selectedGiftHouse.tag == "House")
-                            {
-                                selectedGiftHouse.GetComponent<Outline>().color = 2;
-                            }
-                            else
-                            {
-                                selectedGiftHouse.GetComponent<Outline>().enabled = false;
-                            }
-                        }
-                        selectedGiftHouse = hit.collider.gameObject;
-
-                        //Dishighlight the previous associations
-                        SantaGameManager.Instance.DeselectGiftsAndHousesAssociations();
-
-                        //Disable the santa scroll view
-                        SantaMainController.Instance.ClearSantaScrollView();
-
-                        //Highlight gift or house and get the correspondant gift or house
-                        if (selectedGiftHouse.tag == "House")
-                        {
-                            selectedGiftHouse.GetComponent<Outline>().color = 1;
-                            //Highlight the associated gifts
-                            SantaGameManager.Instance.selectHouse(selectedGiftHouse.GetComponent<House>().id);
-                        }
-                        else
-                        {
-                            //If the object selected is a gift enable its outline
-                            selectedGiftHouse.GetComponent<Outline>().enabled = true;
-                            //Highlight the associated house
-                            SantaGameManager.Instance.selectGift(selectedGiftHouse.GetComponent<Gift>().houseId);
-                        }
-                        print("select");
+                        SelectGiftHouse();
                     }
                     else
                     {
-                        //Dishighlight gift or house
-                        if (selectedGiftHouse != null)
-                        {
-                            if (selectedGiftHouse.tag == "House")
-                            {
-                                selectedGiftHouse.GetComponent<Outline>().color = 2;
-                            }
-                            else
-                            {
-                                selectedGiftHouse.GetComponent<Outline>().enabled = false;
-                            }
-                        }
-                        //Dishighlight the associations
-                        SantaGameManager.Instance.DeselectGiftsAndHousesAssociations();
-                        selectedGiftHouse = null;
-
-                        //Disable santa scroll view
-                        //SantaMainController.Instance.ClearSantaScrollView();
-
-                        print("deselect");
+                        DeselectGiftHouse();
                     }
                 }
             }
@@ -262,5 +189,101 @@ public class InputManager : SingletonMB<InputManager>
         }
         obj.transform.position = toPosition;
         obj.transform.rotation = toRotation;
+    }
+
+    private void selectSanta()
+    {
+        if (selectedSanta != null)
+        {
+            //Dishighlight the santa if there is previous santa selected before the new one
+            selectedSanta.GetComponent<Outline>().enabled = false;
+        }
+        selectedSanta = hit.collider.gameObject;
+
+        //Highlight santa
+        selectedSanta.GetComponent<Outline>().enabled = true;
+
+        //clear and Enable santa scroll view
+        SantaMainController.Instance.ClearSantaScrollView();
+        SantaMainController.Instance.InitSantaScrollView(selectedSanta.GetComponent<Santa>().collectedGifts);
+        print("select");
+    }
+
+    private void DeselectSanta()
+    {
+        //Dishighlight santa
+        if (selectedSanta != null)
+        {
+            selectedSanta.GetComponent<Outline>().enabled = false;
+        }
+
+        selectedSanta = null;
+
+        //Disable santa scroll view
+        SantaMainController.Instance.ClearSantaScrollView();
+        print("deselect");
+    }
+
+    private void SelectGiftHouse()
+    {
+        if (selectedGiftHouse != null)
+        {
+            //Dishighlight the gift or the house if there is previous object selected before the new one
+            if (selectedGiftHouse.tag == "House")
+            {
+                selectedGiftHouse.GetComponent<Outline>().color = 2;
+            }
+            else
+            {
+                selectedGiftHouse.GetComponent<Outline>().enabled = false;
+            }
+        }
+        selectedGiftHouse = hit.collider.gameObject;
+
+        //Dishighlight the previous associations
+        SantaGameManager.Instance.DeselectGiftsAndHousesAssociations();
+
+        //Disable the santa scroll view
+        SantaMainController.Instance.ClearSantaScrollView();
+
+        //Highlight gift or house and get the correspondant gift or house
+        if (selectedGiftHouse.tag == "House")
+        {
+            selectedGiftHouse.GetComponent<Outline>().color = 1;
+            //Highlight the associated gifts
+            SantaGameManager.Instance.selectHouse(selectedGiftHouse.GetComponent<House>().id);
+        }
+        else
+        {
+            //If the object selected is a gift enable its outline
+            selectedGiftHouse.GetComponent<Outline>().enabled = true;
+            //Highlight the associated house
+            SantaGameManager.Instance.selectGift(selectedGiftHouse.GetComponent<Gift>().houseId);
+        }
+        print("select");
+    }
+
+    private void DeselectGiftHouse()
+    {
+        //Dishighlight gift or house
+        if (selectedGiftHouse != null)
+        {
+            if (selectedGiftHouse.tag == "House")
+            {
+                selectedGiftHouse.GetComponent<Outline>().color = 2;
+            }
+            else
+            {
+                selectedGiftHouse.GetComponent<Outline>().enabled = false;
+            }
+        }
+        //Dishighlight the associations
+        SantaGameManager.Instance.DeselectGiftsAndHousesAssociations();
+        selectedGiftHouse = null;
+
+        //Disable santa scroll view
+        //SantaMainController.Instance.ClearSantaScrollView();
+
+        print("deselect");
     }
 }
