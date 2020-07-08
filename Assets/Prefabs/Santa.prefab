@@ -225,7 +225,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6155fdc67278064381a72558045fef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
+  id: 4
   waypoints: []
   collectedGifts: []
 --- !u!65 &8166048213556124758
@@ -283,7 +283,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 6.05
-  m_Speed: 3.5
+  m_Speed: 8
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120

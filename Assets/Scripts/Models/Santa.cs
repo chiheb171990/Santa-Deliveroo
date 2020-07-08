@@ -45,6 +45,17 @@ public class Santa : MonoBehaviour
 
     public void clickDestination(Destination dest)
     {
+        if(waypoints.Count > 0)
+        {
+            if (waypoints[waypoints.Count - 1] != dest)
+            {
+                waypoints.Add(dest);
+            }
+        }
+        else
+        {
+            waypoints.Add(dest);
+        }
         if (!santaNavAgent.hasPath)
         {
             santaNavAgent.SetDestination(waypoints[0].destination);
