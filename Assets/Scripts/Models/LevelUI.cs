@@ -20,10 +20,10 @@ public class LevelUI : MonoBehaviour
         
     }
 
-    public void initLevelButton(Level lev)
+    public void initLevelButton(Level lvl)
     {
-        level = lev;
-        textButton.text = lev.name;
+        level = lvl;
+        textButton.text = lvl.name;
     }
 
     public void ClickLevel()

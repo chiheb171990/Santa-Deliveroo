@@ -23,7 +23,7 @@ public class SantaMainController : SingletonMB<SantaMainController>
     [SerializeField] private GameObject levelButtonPrefab;
     [SerializeField] private Transform levelButtonContent;
 
-
+    #region Start Update region
     // Start is called before the first frame update
     void Start()
     {
@@ -35,6 +35,7 @@ public class SantaMainController : SingletonMB<SantaMainController>
     {
         timerText.text = ((int)SantaGameManager.Instance.gameTimer).ToString();
     }
+    #endregion
     #region Santa UI region
     public void InitSantaScrollView(List<Gift> gifts)
     {

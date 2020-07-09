@@ -39,6 +39,7 @@ public class InputManager : SingletonMB<InputManager>
     //private input variables
     private bool isShiftSelected = false;
 
+    #region Start Update region
     // Start is called before the first frame update
     void Start()
     {
@@ -52,7 +53,8 @@ public class InputManager : SingletonMB<InputManager>
         MoveCamera();
         TacticalView();
     }
-
+    #endregion
+    #region Camera system region
     public void MoveCamera()
     {
         if(CurrentInputState == InputState.CameraView)
@@ -170,26 +172,8 @@ public class InputManager : SingletonMB<InputManager>
             }
         }
     }
-
-    public IEnumerator MoveTo(GameObject obj, Vector3 toPosition,Quaternion toRotation,float period)
-    {
-        //Move the object to the destination positon and orientation 
-        float timer = 0f;
-
-        //Get the first position and rotation
-        Vector3 firstPosition = obj.transform.position;
-        Quaternion firstRotation = obj.transform.rotation;
-
-        while (timer / period < 1)
-        {
-            obj.transform.position = Vector3.Lerp(firstPosition, toPosition, timer / period);
-            obj.transform.rotation = Quaternion.Lerp(firstRotation, toRotation, timer / period);
-            timer += Time.deltaTime;
-            yield return null;
-        }
-        obj.transform.position = toPosition;
-        obj.transform.rotation = toRotation;
-    }
+    #endregion
+    #region Selection Deselection region
 
     private void selectSanta()
     {
@@ -286,7 +270,8 @@ public class InputManager : SingletonMB<InputManager>
 
         print("deselect");
     }
-
+    #endregion
+    #region Actions region
     private void SantaActionWithoutShift()
     {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -350,4 +335,26 @@ public class InputManager : SingletonMB<InputManager>
             santaComponent.clickDestinationWithShift(waypoint.GetComponent<Waypoint>());
         }
     }
+    #endregion
+    #region functionnalities region
+    public IEnumerator MoveTo(GameObject obj, Vector3 toPosition, Quaternion toRotation, float period)
+    {
+        //Move the object to the destination positon and orientation 
+        float timer = 0f;
+
+        //Get the first position and rotation
+        Vector3 firstPosition = obj.transform.position;
+        Quaternion firstRotation = obj.transform.rotation;
+
+        while (timer / period < 1)
+        {
+            obj.transform.position = Vector3.Lerp(firstPosition, toPosition, timer / period);
+            obj.transform.rotation = Quaternion.Lerp(firstRotation, toRotation, timer / period);
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        obj.transform.position = toPosition;
+        obj.transform.rotation = toRotation;
+    }
+    #endregion
 }

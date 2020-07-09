@@ -27,10 +27,11 @@ public class SantaGameManager : SingletonMB<SantaGameManager>
     private bool isGameBegin = false;
     private bool isGameWin = false;
 
+    #region Start Update region
     // Start is called before the first frame update
     void Start()
     {
-        //initScene(5, 10, 20,1,100);
+        
     }
 
     // Update is called once per frame
@@ -49,7 +50,8 @@ public class SantaGameManager : SingletonMB<SantaGameManager>
             }
         }
     }
-
+    #endregion
+    #region Scene Initiation region
     public void initScene(int santaNumber,int houseNumber,int giftNumber,int amountGiftNumber, float gameTime)
     {
         //Init the game parameters
@@ -120,7 +122,8 @@ public class SantaGameManager : SingletonMB<SantaGameManager>
         //Beging the timer 
         isGameBegin = true;
     }
-
+    #endregion
+    #region Selection Deselection region
     public void selectGift(int houseId)
     {
         //Highlight the house associating to its gift
@@ -191,6 +194,26 @@ public class SantaGameManager : SingletonMB<SantaGameManager>
 
         return waypointObj;
     }
+    #endregion
+    #region Gameplay region
+    public void BefanaCatchSanta(Santa santa)
+    {
+        //remove the associated gifts
+        if (santa.collectedGifts.Count > 0)
+        {
+            for (int i = 0; i < santa.collectedGifts.Count; i++)
+            {
+                gifts.Remove(santa.collectedGifts[i]);
+
+                //remove gift from associated house
+                House house = choosedHouses.Find(p => p.id == santa.collectedGifts[i].houseId);
+                house.associatedGifts.Remove(santa.collectedGifts[i]);
+            }
+        }
+
+        //Destroy the santa
+        Destroy(santa.gameObject.transform.parent.gameObject);
+    }
 
     public void GameOver()
     {
@@ -208,4 +231,5 @@ public class SantaGameManager : SingletonMB<SantaGameManager>
         lev++;
         PlayerPrefs.SetInt("level",lev);
     }
+    #endregion
 }

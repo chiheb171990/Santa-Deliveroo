@@ -29,7 +29,6 @@ public class Waypoint : Destination
         //check if the trigger is a santa and the gift is selected by the same santa
         if (other.gameObject.tag == "Santa" && other.gameObject.GetComponent<Santa>().id == santaId)
         {
-            print("shiit2");
             other.gameObject.GetComponent<Santa>().touchWaypoint();
             Destroy(this.gameObject);
         }
