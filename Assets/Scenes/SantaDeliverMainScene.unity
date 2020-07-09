@@ -246,7 +246,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 25952353}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 1.93
+  m_Radius: 1.54
   m_Speed: 7
   m_Acceleration: 8
   avoidancePriority: 50
@@ -565,40 +565,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0171e7b1152aac040b9a2a27b44c9e6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!84 &145126113
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_ForcedFallbackFormat: 4
-  m_DownscaleFallback: 0
-  serializedVersion: 3
-  m_Width: 3840
-  m_Height: 2160
-  m_AntiAliasing: 1
-  m_DepthFormat: 1
-  m_ColorFormat: 8
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_UseDynamicScale: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
 --- !u!1 &154043735
 GameObject:
   m_ObjectHideFlags: 0
@@ -795,7 +761,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.93548965, y: 2.1997561, z: 1.4884974}
+  m_Size: {x: 0.93548965, y: 2.64, z: 1.4884974}
   m_Center: {x: 0, y: 0.19506596, z: 0.17217739}
 --- !u!54 &205852847
 Rigidbody:
@@ -2481,7 +2447,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.93548965, y: 2.1997561, z: 1.4884974}
+  m_Size: {x: 0.93548965, y: 2.64, z: 1.4884974}
   m_Center: {x: 0, y: 0.19506596, z: 0.17217739}
 --- !u!54 &660607323
 Rigidbody:
@@ -3255,7 +3221,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.93548965, y: 2.1997561, z: 1.4884974}
+  m_Size: {x: 0.93548965, y: 2.64, z: 1.4884974}
   m_Center: {x: 0, y: 0.19506596, z: 0.17217739}
 --- !u!54 &850412162
 Rigidbody:
@@ -3273,6 +3239,40 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!84 &872850278
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  serializedVersion: 3
+  m_Width: 3840
+  m_Height: 2160
+  m_AntiAliasing: 1
+  m_DepthFormat: 1
+  m_ColorFormat: 8
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
 --- !u!1 &877110653
 GameObject:
   m_ObjectHideFlags: 0
@@ -3730,7 +3730,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 958262435}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 1.93
+  m_Radius: 1.54
   m_Speed: 7
   m_Acceleration: 8
   avoidancePriority: 50
@@ -3857,8 +3857,8 @@ MonoBehaviour:
   sourceCamera: {fileID: 963194227}
   outlineCamera: {fileID: 1500275753}
   outlineShaderMaterial: {fileID: 0}
-  renderTexture: {fileID: 1446545981}
-  extraRenderTexture: {fileID: 145126113}
+  renderTexture: {fileID: 1272378219}
+  extraRenderTexture: {fileID: 872850278}
 --- !u!114 &963194230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3924,7 +3924,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.93548965, y: 2.1997561, z: 1.4884974}
+  m_Size: {x: 0.93548965, y: 2.64, z: 1.4884974}
   m_Center: {x: 0, y: 0.19506596, z: 0.17217739}
 --- !u!54 &1020410624
 Rigidbody:
@@ -5011,6 +5011,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0171e7b1152aac040b9a2a27b44c9e6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!84 &1272378219
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  serializedVersion: 3
+  m_Width: 3840
+  m_Height: 2160
+  m_AntiAliasing: 1
+  m_DepthFormat: 1
+  m_ColorFormat: 8
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
 --- !u!1 &1279097177
 GameObject:
   m_ObjectHideFlags: 0
@@ -5664,40 +5698,6 @@ Transform:
   m_Father: {fileID: 22301991}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!84 &1446545981
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_ForcedFallbackFormat: 4
-  m_DownscaleFallback: 0
-  serializedVersion: 3
-  m_Width: 3840
-  m_Height: 2160
-  m_AntiAliasing: 1
-  m_DepthFormat: 1
-  m_ColorFormat: 8
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_UseDynamicScale: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
 --- !u!1 &1450563216
 GameObject:
   m_ObjectHideFlags: 0
@@ -5974,7 +5974,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 0
   m_RenderingPath: 1
-  m_TargetTexture: {fileID: 1446545981}
+  m_TargetTexture: {fileID: 1272378219}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 0
@@ -6357,7 +6357,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 1529534342}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 1.93
+  m_Radius: 1.54
   m_Speed: 7
   m_Acceleration: 8
   avoidancePriority: 50
@@ -8148,7 +8148,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 1866975579}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 1.93
+  m_Radius: 1.54
   m_Speed: 7
   m_Acceleration: 8
   avoidancePriority: 50
