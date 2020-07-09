@@ -90,6 +90,9 @@ public class Santa : MonoBehaviour
         {
             santaNavAgent.SetDestination(waypoints[0].destination);
         }
+
+        //slow down a bit the speed
+        santaNavAgent.speed -= 0.5f;
     }
 
     public void DeliverGift(Gift gift)
@@ -105,6 +108,9 @@ public class Santa : MonoBehaviour
         {
             santaNavAgent.SetDestination(waypoints[0].destination);
         }
+
+        //speed up a bit the santa speed
+        santaNavAgent.speed += 0.5f;
     }
 
     public void touchWaypoint()

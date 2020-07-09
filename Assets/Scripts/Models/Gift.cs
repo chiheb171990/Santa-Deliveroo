@@ -28,15 +28,19 @@ public class Gift : Destination
         //check if the trigger is a santa and the gift is selected by the same santa
         if (other.gameObject.tag == "Santa" && isSelected == true && other.gameObject.GetComponent<Santa>().id == santaId)
         {
-            other.gameObject.GetComponent<Santa>().CollectGift(this);
-            
-            //Check if the scroll view is enabled
-            if (SantaMainController.Instance.SantaScrollViewObject.activeInHierarchy && InputManager.Instance.selectedSanta.GetComponent<Santa>().id == other.gameObject.GetComponent<Santa>().id)
+            Santa touchedSanta = other.gameObject.GetComponent<Santa>();
+            if (touchedSanta.collectedGifts.Count < 5)
             {
-                SantaMainController.Instance.ClearSantaScrollView();
-                SantaMainController.Instance.InitSantaScrollView(other.gameObject.GetComponent<Santa>().collectedGifts);
+                touchedSanta.CollectGift(this);
+
+                //Check if the scroll view is enabled
+                if (SantaMainController.Instance.SantaScrollViewObject.activeInHierarchy && InputManager.Instance.selectedSanta.GetComponent<Santa>().id == other.gameObject.GetComponent<Santa>().id)
+                {
+                    SantaMainController.Instance.ClearSantaScrollView();
+                    SantaMainController.Instance.InitSantaScrollView(touchedSanta.collectedGifts);
+                }
+                gameObject.SetActive(false);
             }
-            gameObject.SetActive(false);
         }
     }
 }

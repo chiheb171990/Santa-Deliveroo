@@ -18,26 +18,44 @@ public class SantaGameManager : SingletonMB<SantaGameManager>
     [Header("Game variables")]
     public List<House> choosedHouses;
     public List<Gift> gifts;
-    public int restGifts;
+    public int amountGift;
+    public float gameTimer;
 
     //private variables
     private House associationHouse;
     private List<Gift> associationGifts;
+    private bool isGameBegin = false;
+    private bool isGameWin = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        initScene(5, 10, 20);
+        //initScene(5, 10, 20,1,100);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (isGameBegin)
+        {
+            if (gameTimer >=0 && !isGameWin)
+            {
+                gameTimer -= Time.deltaTime;
+            }
+            else if(gameTimer<=0)
+            {
+                GameOver();
+                print("game over");
+            }
+        }
     }
 
-    public void initScene(int santaNumber,int houseNumber,int giftNumber)
+    public void initScene(int santaNumber,int houseNumber,int giftNumber,int amountGiftNumber, float gameTime)
     {
+        //Init the game parameters
+        amountGift = amountGiftNumber;
+        gameTimer = gameTime;
+
         //Init the santas
         for(int i = 0; i < santaNumber; i++)
         {
@@ -72,9 +90,6 @@ public class SantaGameManager : SingletonMB<SantaGameManager>
             choosedHouse.GetComponent<Outline>().enabled = true;
         }
 
-        //Set the gift rest
-        restGifts = giftNumber;
-
         //Init the gifts
         int giftHouseId = 0;
         for (int i = 0; i < giftNumber; i++)
@@ -101,6 +116,9 @@ public class SantaGameManager : SingletonMB<SantaGameManager>
             giftHouseId = (giftHouseId < houseNumber-1) ? giftHouseId+1 : 0;
 
         }
+
+        //Beging the timer 
+        isGameBegin = true;
     }
 
     public void selectGift(int houseId)
@@ -151,8 +169,19 @@ public class SantaGameManager : SingletonMB<SantaGameManager>
 
     public void DeliveredGift(Gift gift)
     {
-        restGifts--;
+        amountGift--;
         gifts.Remove(gift);
+
+        //Update amount gift UI
+        SantaMainController.Instance.DecrementGiftAmountText(amountGift);
+
+        //Check if amount gift is done
+        if(amountGift == 0)
+        {
+            //Win the game
+            isGameWin = true;
+            WinGame();
+        }
     }
 
     public GameObject InstantiateWaypoint(Vector3 pos,int santa_id)
@@ -161,5 +190,22 @@ public class SantaGameManager : SingletonMB<SantaGameManager>
         waypointObj.GetComponent<Waypoint>().InitWaypoint(santa_id);
 
         return waypointObj;
+    }
+
+    public void GameOver()
+    {
+        //Enable gameOver Panel
+        SantaMainController.Instance.LoseGame();
+    }
+
+    public void WinGame()
+    {
+        //enable win panel
+        SantaMainController.Instance.WinGame();
+
+        //Save the level and pass to next level
+        int lev = PlayerPrefs.GetInt("level");
+        lev++;
+        PlayerPrefs.SetInt("level",lev);
     }
 }

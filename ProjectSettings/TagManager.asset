@@ -7,6 +7,7 @@ TagManager:
   - Gift
   - Santa
   - House
+  - FxTemporaire
   layers:
   - Default
   - TransparentFX
@@ -18,7 +19,7 @@ TagManager:
   - 
   - Santa
   - Clickable
-  - 
+  - NavMesh
   - 
   - 
   - 
