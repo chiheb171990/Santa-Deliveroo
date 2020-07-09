@@ -28,6 +28,7 @@ public class LevelUI : MonoBehaviour
 
     public void ClickLevel()
     {
+        //Load the level scene
         SantaMainController.Instance.LoadLevelScene(level);
     }
 }

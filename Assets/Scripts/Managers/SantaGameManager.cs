@@ -46,7 +46,6 @@ public class SantaGameManager : SingletonMB<SantaGameManager>
             else if(gameTimer<=0)
             {
                 GameOver();
-                print("game over");
             }
         }
     }

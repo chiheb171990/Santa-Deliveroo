@@ -117,6 +117,12 @@ public class SantaMainController : SingletonMB<SantaMainController>
     {
         levelsPanel.SetActive(false);
         mainMenuPanel.SetActive(true);
+
+        //Clear the level scroll view content
+        for(int i = 0; i < levelButtonContent.childCount; i++)
+        {
+            Destroy(levelButtonContent.GetChild(i).gameObject);
+        }
     }
 
     public void startGame()
