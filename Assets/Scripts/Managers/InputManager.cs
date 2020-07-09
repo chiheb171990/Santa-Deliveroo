@@ -112,18 +112,18 @@ public class InputManager : SingletonMB<InputManager>
 
 
             //Select Santa's Actions
-            if (Input.GetKey(KeyCode.LeftShift))
+            if (Input.GetKey(KeyCode.LeftControl))
             {
                 if (Input.GetMouseButtonDown(1))
                 {
                     if (selectedSanta != null)
                     {
-                        SantaActionWithShift();
+                        SantaActionWithCtrl();
                     }
                 }
             }
 
-            else if (Input.GetKeyUp(KeyCode.LeftShift))
+            else if (Input.GetKeyUp(KeyCode.LeftControl))
             {
                 if (selectedSanta != null)
                 {
@@ -139,7 +139,7 @@ public class InputManager : SingletonMB<InputManager>
                     //Check if there is santa selected
                     if (selectedSanta != null)
                     {
-                        SantaActionWithoutShift();
+                        SantaActionWithoutCtrl();
                     }
                 } 
             }
@@ -272,7 +272,7 @@ public class InputManager : SingletonMB<InputManager>
     }
     #endregion
     #region Actions region
-    private void SantaActionWithoutShift()
+    private void SantaActionWithoutCtrl()
     {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit, 10000, ClickableLayer))
@@ -297,7 +297,7 @@ public class InputManager : SingletonMB<InputManager>
         }
     }
 
-    private void SantaActionWithShift()
+    private void SantaActionWithCtrl()
     {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit, 10000, ClickableLayer))
